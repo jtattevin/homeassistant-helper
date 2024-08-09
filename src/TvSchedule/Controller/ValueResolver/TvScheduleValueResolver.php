@@ -11,16 +11,13 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-/**
- * Class TvScheduleValueResolver
- *
- * @package App\TvSchedule\Controller\ValueResolver
- */
 readonly class TvScheduleValueResolver implements ValueResolverInterface
 {
     public function __construct(
-        private SerializerInterface $serializer
+        private SerializerInterface $serializer,
+        private HttpClientInterface $tvScheduleClient
     ) {
     }
 
@@ -35,7 +32,7 @@ readonly class TvScheduleValueResolver implements ValueResolverInterface
         yield $cache->get('tv_schedule', function (ItemInterface $item) {
             $item->expiresAfter(3600 * 10);
 
-            $xml = file_get_contents("https://xmltvfr.fr/xmltv/xmltv_tnt.xml");
+            $xml = $this->tvScheduleClient->request("GET", "")->getContent();
 
             return $this->serializer->deserialize($xml, Schedule::class, "xml", [
                 XmlEncoder::DECODER_IGNORED_NODE_TYPES => [

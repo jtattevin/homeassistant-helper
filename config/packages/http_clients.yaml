@@ -1,0 +1,5 @@
+framework:
+    http_client:
+        scoped_clients:
+            tv_schedule.client:
+                base_uri: "https://xmltvfr.fr/xmltv/xmltv_tnt.xml"
