@@ -1,0 +1,5 @@
+tv_schedule:
+    resource:
+        path: ../src/TvSchedule/Controller/
+        namespace: App\TvSchedule\Controller
+    type: attribute
