@@ -2,21 +2,18 @@
 
 namespace App\TvSchedule\Model;
 
-use DateTimeInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class Schedule
 {
     /** @var ShowSchedule[] */
-    #[SerializedName("programme")]
+    #[SerializedName('programme')]
     public array $showSchedules;
 
     /**
-     * @param DateTimeInterface $targetDate
-     *
      * @return array<string,ShowSchedule|null>
      */
-    public function getShowScheduledAt(DateTimeInterface $targetDate): array
+    public function getShowScheduledAt(\DateTimeInterface $targetDate): array
     {
         $scheduledShow = [];
 

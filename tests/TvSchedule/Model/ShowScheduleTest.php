@@ -4,12 +4,10 @@ namespace App\Tests\TvSchedule\Model;
 
 use App\TvSchedule\Model\Category;
 use App\TvSchedule\Model\ShowSchedule;
-use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class ShowScheduleTest extends TestCase
 {
-
     /**
      * @testWith ["simple","simple"]
      *           ["allowUppercase","allowuppercase"]
@@ -20,28 +18,28 @@ class ShowScheduleTest extends TestCase
      */
     public function testSlug(string $channel, string $expected)
     {
-        $showSchedule          = new ShowSchedule;
+        $showSchedule = new ShowSchedule();
         $showSchedule->channel = $channel;
         $this->assertEquals($expected, $showSchedule->slug());
     }
 
     public function testJsonSerialize()
     {
-        $category        = new Category;
-        $category->title = "category.title";
+        $category = new Category();
+        $category->title = 'category.title';
 
-        $showSchedule              = new ShowSchedule;
-        $showSchedule->title       = "title";
-        $showSchedule->description = "desc";
-        $showSchedule->categories  = [
+        $showSchedule = new ShowSchedule();
+        $showSchedule->title = 'title';
+        $showSchedule->description = 'desc';
+        $showSchedule->categories = [
             $category,
         ];
-        $showSchedule->icon        = "icon";
-        $showSchedule->episode     = "episode";
-        $showSchedule->rating      = "rating";
-        $showSchedule->channel     = "channel";
-        $showSchedule->start       = new DateTime("2024-01-01");
-        $showSchedule->stop        = new DateTime("2024-01-01");
+        $showSchedule->icon = 'icon';
+        $showSchedule->episode = 'episode';
+        $showSchedule->rating = 'rating';
+        $showSchedule->channel = 'channel';
+        $showSchedule->start = new \DateTime('2024-01-01');
+        $showSchedule->stop = new \DateTime('2024-01-01');
 
         $this->assertEquals(
             <<<JSON
