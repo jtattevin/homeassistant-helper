@@ -11,7 +11,6 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
 
 class TvScheduleValueResolverTest extends KernelTestCase
 {
@@ -19,9 +18,9 @@ class TvScheduleValueResolverTest extends KernelTestCase
      * @testWith ["schedule"]
      *            ["otherName"]
      */
-    public function testResolveCorrectType(string $name)
+    public function testResolveCorrectType(string $name): void
     {
-        $resolved = $this->resolveValue($name, Schedule::class, "basic-tv-schedule.xml");
+        $resolved = $this->resolveValue($name, Schedule::class, 'basic-tv-schedule.xml');
         $this->assertCount(1, iterator_to_array($resolved));
     }
 
@@ -30,23 +29,29 @@ class TvScheduleValueResolverTest extends KernelTestCase
      *            ["string"]
      *            ["Schedule"]
      */
-    public function testResolveWrongType(string $type)
+    public function testResolveWrongType(string $type): void
     {
-        $resolved = $this->resolveValue("schedule", $type, "basic-tv-schedule.xml");
+        $resolved = $this->resolveValue('schedule', $type, 'basic-tv-schedule.xml');
         $this->assertCount(0, iterator_to_array($resolved));
     }
 
+    /**
+     * @return iterable<Schedule>
+     */
     public function resolveValue(string $name, string $type, string $sampleFile): iterable
     {
         self::bootKernel();
         $container = static::getContainer();
 
+        $serializer = $container->get(SerializerInterface::class);
+        assert($serializer instanceof SerializerInterface);
+
         $valueResolver = new TvScheduleValueResolver(
-            $container->get(SerializerInterface::class),
-            new MockHttpClient(MockResponse::fromFile(__DIR__ . "/sample/" . $sampleFile)),
-            new NullAdapter
+            $serializer,
+            new MockHttpClient(MockResponse::fromFile(__DIR__.'/sample/'.$sampleFile)),
+            new NullAdapter()
         );
-        $request       = Request::create('/');
+        $request = Request::create('/');
 
         return $valueResolver->resolve(
             $request,

@@ -8,7 +8,7 @@ use Symfony\Component\Clock\Clock;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route("/api/tv-schedule")]
+#[Route('/api/tv-schedule')]
 class TVScheduleController extends AbstractController
 {
     public function __invoke(

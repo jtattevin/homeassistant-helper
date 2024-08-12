@@ -7,13 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class CategoryTest extends TestCase
 {
-
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
-        $category        = new Category;
-        $category->title = "title";
+        $category = new Category();
+        $category->title = 'title';
 
-        $this->assertEquals("\"title\"", json_encode($category));
-
+        $this->assertEquals('"title"', json_encode($category));
     }
 }
