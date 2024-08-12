@@ -41,5 +41,10 @@ jobs:
             - name: Execute PHPStan
               uses: php-actions/phpstan@v3
               with:
-                  path: src/
-                  level: 7
+                  vendored_phpstan_path: vendor/bin/phpstan
+                  path: |
+                      bin/
+                      config/
+                      public/
+                      src/
+                      tests/
