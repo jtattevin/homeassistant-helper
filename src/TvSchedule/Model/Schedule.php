@@ -18,15 +18,15 @@ class Schedule
      */
     public function getShowScheduledAt(DateTimeInterface $targetDate): array
     {
-        $programmesMapped = [];
+        $scheduledShow = [];
 
         foreach ($this->showSchedules as $showSchedule) {
-            $programmesMapped[$showSchedule->slug()] ??= null;
+            $scheduledShow[$showSchedule->slug()] ??= null;
             if ($showSchedule->start <= $targetDate && $targetDate < $showSchedule->stop) {
-                $programmesMapped[$showSchedule->slug()] = $showSchedule;
+                $scheduledShow[$showSchedule->slug()] = $showSchedule;
             }
         }
 
-        return $programmesMapped;
+        return $scheduledShow;
     }
 }

@@ -4,6 +4,8 @@
 .git
 .github
 .gitignore
+.php-cs-fixer.php
+.php-cs-fixer.cache
 .phpunit.result.cache
 Dockerfile
 phpstan.dist.neon
