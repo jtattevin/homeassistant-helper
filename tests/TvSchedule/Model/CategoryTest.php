@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class CategoryTest extends TestCase
 {
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $category = new Category();
         $category->title = 'title';

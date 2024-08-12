@@ -19,7 +19,7 @@ class ScheduleTest extends TestCase
      *            ["channel2", "2024-01-01 09:15", "show3"]
      *            ["channel2", "2024-01-01 09:30", null]
      */
-    public function testGetShowScheduledAt(string $channel, string $currentDateTime, ?string $expectedShow)
+    public function testGetShowScheduledAt(string $channel, string $currentDateTime, ?string $expectedShow): void
     {
         $schedule = new Schedule();
         $schedule->showSchedules[] = $this->getShowSchedule('channel1', '2024-01-01 09:00', '2024-01-01 09:30', 'show1');

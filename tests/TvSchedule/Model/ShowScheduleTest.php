@@ -16,14 +16,14 @@ class ShowScheduleTest extends TestCase
      *           ["disallow.multiple.dot","disallow_multiple_dot"]
      *           ["",""]
      */
-    public function testSlug(string $channel, string $expected)
+    public function testSlug(string $channel, string $expected): void
     {
         $showSchedule = new ShowSchedule();
         $showSchedule->channel = $channel;
         $this->assertEquals($expected, $showSchedule->slug());
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $category = new Category();
         $category->title = 'category.title';

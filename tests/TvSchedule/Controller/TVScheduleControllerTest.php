@@ -14,10 +14,11 @@ class TVScheduleControllerTest extends KernelTestCase
     /**
      * @dataProvider invokeProvider
      */
-    public function testInvoke(Schedule $schedule, string $time, string $expected)
+    public function testInvoke(Schedule $schedule, string $time, string $expected): void
     {
         self::bootKernel();
         $controller = self::getContainer()->get(TVScheduleController::class);
+        assert($controller instanceof TVScheduleController);
 
         Clock::set(new MockClock($time));
 

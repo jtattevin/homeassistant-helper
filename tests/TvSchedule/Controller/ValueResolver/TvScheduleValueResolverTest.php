@@ -18,7 +18,7 @@ class TvScheduleValueResolverTest extends KernelTestCase
      * @testWith ["schedule"]
      *            ["otherName"]
      */
-    public function testResolveCorrectType(string $name)
+    public function testResolveCorrectType(string $name): void
     {
         $resolved = $this->resolveValue($name, Schedule::class, 'basic-tv-schedule.xml');
         $this->assertCount(1, iterator_to_array($resolved));
@@ -29,19 +29,25 @@ class TvScheduleValueResolverTest extends KernelTestCase
      *            ["string"]
      *            ["Schedule"]
      */
-    public function testResolveWrongType(string $type)
+    public function testResolveWrongType(string $type): void
     {
         $resolved = $this->resolveValue('schedule', $type, 'basic-tv-schedule.xml');
         $this->assertCount(0, iterator_to_array($resolved));
     }
 
+    /**
+     * @return iterable<Schedule>
+     */
     public function resolveValue(string $name, string $type, string $sampleFile): iterable
     {
         self::bootKernel();
         $container = static::getContainer();
 
+        $serializer = $container->get(SerializerInterface::class);
+        assert($serializer instanceof SerializerInterface);
+
         $valueResolver = new TvScheduleValueResolver(
-            $container->get(SerializerInterface::class),
+            $serializer,
             new MockHttpClient(MockResponse::fromFile(__DIR__.'/sample/'.$sampleFile)),
             new NullAdapter()
         );
