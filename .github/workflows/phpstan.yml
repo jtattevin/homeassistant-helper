@@ -1,4 +1,4 @@
-name: PHP Composer
+name: PHP Stan
 
 on:
     push:
@@ -24,9 +24,7 @@ jobs:
               with:
                   php-version: ${{ matrix.php-versions }}
                   extensions: ctype, dom, iconv
-
-            - name: Validate composer.json and composer.lock
-              run: composer validate --strict
+                  coverage: none
 
             - name: Cache Composer packages
               id: composer-cache
@@ -45,15 +43,3 @@ jobs:
               with:
                   path: src/
                   level: 7
-
-            - name: Execute PHPUnit
-              run: vendor/bin/phpunit --coverage-clover ./coverage.xml
-              env:
-                  XDEBUG_MODE: coverage
-
-            - name: Upload to Codecov
-              uses: codecov/codecov-action@v2
-              with:
-                  token: ${{ secrets.CODE_COV_TOKEN }}
-                  files: ./coverage.xml
-                  verbose: true
