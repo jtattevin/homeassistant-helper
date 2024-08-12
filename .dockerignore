@@ -1,0 +1,13 @@
+.dockerignore
+.env.local
+.env.test
+.git
+.github
+.gitignore
+.phpunit.result.cache
+Dockerfile
+phpstan.dist.neon
+phpstan.neon
+phpunit.xml.dist
+tests
+var/*
