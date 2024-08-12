@@ -3,6 +3,7 @@
 namespace App\TvSchedule\Model;
 
 use DateTime;
+use DateTimeInterface;
 use JsonSerializable;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Serializer\Attribute\SerializedPath;
@@ -32,10 +33,10 @@ class ShowSchedule implements JsonSerializable
     public string $channel;
 
     #[SerializedName("@start")]
-    public DateTime $start;
+    public DateTimeInterface $start;
 
     #[SerializedName("@stop")]
-    public DateTime $stop;
+    public DateTimeInterface $stop;
 
     public function slug() : string {
         return preg_replace(

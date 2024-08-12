@@ -2,7 +2,7 @@
 
 namespace App\TvSchedule\Model;
 
-use DateTime;
+use DateTimeInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class Schedule
@@ -11,13 +11,13 @@ class Schedule
     #[SerializedName("programme")]
     public array $showSchedules;
 
-    public function getShowScheduledAt(DateTime $targetDate): array
+    public function getShowScheduledAt(DateTimeInterface $targetDate): array
     {
         $programmesMapped = [];
 
         foreach ($this->showSchedules as $showSchedule) {
             $programmesMapped[$showSchedule->slug()] ??= null;
-            if ($showSchedule->start < $targetDate && $targetDate < $showSchedule->stop) {
+            if ($showSchedule->start <= $targetDate && $targetDate < $showSchedule->stop) {
                 $programmesMapped[$showSchedule->slug()] = $showSchedule;
             }
         }

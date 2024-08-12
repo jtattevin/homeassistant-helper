@@ -1,0 +1,25 @@
+<tv source-info-url="https://github.com/racacax/XML-TV-Fr" source-info-name="XML TV Fr" generator-info-name="XML TV Fr" generator-info-url="https://github.com/racacax/XML-TV-Fr">
+    <programme start="20240808060000 +0200" stop="20240808065500 +0200" channel="TF1.fr">
+        <title lang="fr">TFou</title>
+        <desc lang="fr">Une émission jeunesse qui propose les meilleures séries de dessins animés du moment.</desc>
+        <category lang="fr">Magazine</category>
+        <category lang="fr">Jeunesse</category>
+        <icon src="https://img.bouygtel.fr/CMS/images/C285B0F5AFC51F765BFFE156117B749B.jpg"/>
+        <rating system="CSA">
+            <value>Tout public</value>
+        </rating>
+    </programme>
+    <programme start="20240808065500 +0200" stop="20240808093500 +0200" channel="TF1.fr">
+        <title lang="fr">Bonjour ! La Matinale TF1</title>
+        <desc lang="fr">"Bonjour ! La Matinale TF1" est le premier rendez-vous d'information de la journée. Bruce Toussaint fait aussi intervenir les correspondants en direct en région.</desc>
+        <credits>
+            <guest>Maud Descamps</guest>
+        </credits>
+        <category lang="fr">Magazine</category>
+        <category lang="fr">Information</category>
+        <icon src="https://img.bouygtel.fr/CMS/images/B6528BF8014B92C1B9D4BC7BBDB13DF4.jpg"/>
+        <rating system="CSA">
+            <value>Tout public</value>
+        </rating>
+    </programme>
+</tv>

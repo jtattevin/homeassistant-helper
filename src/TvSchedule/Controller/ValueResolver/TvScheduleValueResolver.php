@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -17,7 +18,8 @@ readonly class TvScheduleValueResolver implements ValueResolverInterface
 {
     public function __construct(
         private SerializerInterface $serializer,
-        private HttpClientInterface $tvScheduleClient
+        private HttpClientInterface $tvScheduleClient,
+        private CacheInterface $cache
     ) {
     }
 
@@ -27,9 +29,7 @@ readonly class TvScheduleValueResolver implements ValueResolverInterface
             return;
         }
 
-        $cache = new FilesystemAdapter;
-
-        yield $cache->get('tv_schedule', function (ItemInterface $item) {
+        yield $this->cache->get('tv_schedule', function (ItemInterface $item) {
             $item->expiresAfter(3600 * 10);
 
             $xml = $this->tvScheduleClient->request("GET", "")->getContent();
