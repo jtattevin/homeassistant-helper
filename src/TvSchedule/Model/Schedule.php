@@ -11,6 +11,11 @@ class Schedule
     #[SerializedName("programme")]
     public array $showSchedules;
 
+    /**
+     * @param DateTimeInterface $targetDate
+     *
+     * @return array<string,ShowSchedule|null>
+     */
     public function getShowScheduledAt(DateTimeInterface $targetDate): array
     {
         $programmesMapped = [];

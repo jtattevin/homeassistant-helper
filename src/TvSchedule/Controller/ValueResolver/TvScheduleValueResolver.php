@@ -3,6 +3,7 @@
 namespace App\TvSchedule\Controller\ValueResolver;
 
 use App\TvSchedule\Model\Schedule;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
@@ -23,6 +24,13 @@ readonly class TvScheduleValueResolver implements ValueResolverInterface
     ) {
     }
 
+    /**
+     * @param Request          $request
+     * @param ArgumentMetadata $argument
+     *
+     * @throws InvalidArgumentException
+     * @return iterable<Schedule>
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if (!is_a($argument->getType(), Schedule::class, true)) {

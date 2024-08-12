@@ -40,7 +40,13 @@ jobs:
             - name: Install dependencies
               run: composer install --prefer-dist --no-progress
 
-            - name: Execute tests (Unit and Feature tests) via PHPUnit
+            - name: Execute PHPStan
+              uses: php-actions/phpstan@v3
+              with:
+                  path: src/
+                  level: 7
+
+            - name: Execute PHPUnit
               run: vendor/bin/phpunit --coverage-clover ./coverage.xml
               env:
                   XDEBUG_MODE: coverage
