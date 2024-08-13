@@ -6,9 +6,9 @@ use Rector\Symfony\Set\SymfonySetList;
 
 return RectorConfig::configure()
                    ->withAttributesSets(symfony: true)
-                   ->withSymfonyContainerXml(__DIR__ . '/var/cache/dev/App_KernelDevDebugContainer.xml')
+                   ->withSymfonyContainerXml(__DIR__.'/var/cache/dev/App_KernelDevDebugContainer.xml')
                    ->withPaths([
-                       __DIR__ . "/src",
+                       __DIR__.'/src',
                    ])
                    ->withPreparedSets(
                        deadCode: true,

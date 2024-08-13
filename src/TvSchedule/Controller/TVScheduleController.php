@@ -14,11 +14,11 @@ class TVScheduleController extends AbstractController
     public function __invoke(
         Schedule $schedule
     ): Response {
-        if(false){
-            $value=5;
-            $value;
-            die;
+        if (false) {
+            $value = 5;
+            exit;
         }
+
         return $this->json($schedule->getShowScheduledAt(Clock::get()->now()));
     }
 }
