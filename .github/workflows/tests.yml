@@ -10,6 +10,7 @@ permissions:
 
 jobs:
     composer:
+        name: Composer validate
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -17,6 +18,7 @@ jobs:
               run: composer validate --strict
 
     composerAudit:
+        name: Composer audit
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -70,6 +72,7 @@ jobs:
                 env:
                     XDEBUG_MODE: coverage
             -   name: Upload to Codecov
+                if: ${{ matrix.php-versions == '8.2' }}
                 uses: codecov/codecov-action@v4
                 with:
                     token: ${{ secrets.CODE_COV_TOKEN }}
