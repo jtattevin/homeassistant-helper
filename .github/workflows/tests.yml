@@ -1,4 +1,4 @@
-name: Code quality
+name: Tests
 
 on:
     push:
@@ -16,65 +16,38 @@ jobs:
             - name: Validate composer.json and composer.lock
               run: composer validate --strict
 
+    composerAudit:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  extensions: ctype, dom, iconv
+                  coverage: none
+            - name: Install dependencies
+              run: composer install --prefer-dist --no-progress
+            - name: Run composer audit
+              uses: alamirault/composer-audit-action@v1
+
     phpstan:
         name: PHPStan
         runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                php-versions: ['8.2', '8.3']
-            fail-fast: false
         steps:
             - uses: actions/checkout@v4
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: ${{ matrix.php-versions }}
+                  php-version: '8.2'
                   extensions: ctype, dom, iconv
                   coverage: none
-            - name: Cache Composer packages
-              id: composer-cache
-              uses: actions/cache@v4
-              with:
-                  path: vendor
-                  key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-php-
-
             - name: Install dependencies
               run: composer install --prefer-dist --no-progress
-            - name: Execute PHPStan
-              uses: php-actions/phpstan@v3
+            - uses: php-actions/phpstan@v3
               with:
                   level: 7
                   path: bin config public src tests
-
-    php-cs-fixer:
-        name: PHP CS Fixer
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php-versions }}
-                  extensions: ctype, dom, iconv
-                  coverage: none
-            - name: Cache Composer packages
-              id: composer-cache
-              uses: actions/cache@v4
-              with:
-                  path: vendor
-                  key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-php-
-
-            - name: Install dependencies
-              run: composer install --prefer-dist --no-progress
-            - name: Run PHP-CS-Fixer Style
-              run: ./vendor/bin/php-cs-fixer fix
-            - uses: stefanzweifel/git-auto-commit-action@v4
-              with:
-                commit_message: Apply PHP-CS-Fixer changes
 
     phpunit:
         name: PHPUnit
@@ -90,15 +63,6 @@ jobs:
                 with:
                     php-version: ${{ matrix.php-versions }}
                     extensions: ctype, dom, iconv
-            -   name: Cache Composer packages
-                id: composer-cache
-                uses: actions/cache@v4
-                with:
-                    path: vendor
-                    key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-                    restore-keys: |
-                        ${{ runner.os }}-php-
-
             -   name: Install dependencies
                 run: composer install --prefer-dist --no-progress
             -   name: Execute PHPUnit
@@ -106,7 +70,7 @@ jobs:
                 env:
                     XDEBUG_MODE: coverage
             -   name: Upload to Codecov
-                uses: codecov/codecov-action@v2
+                uses: codecov/codecov-action@v4
                 with:
                     token: ${{ secrets.CODE_COV_TOKEN }}
                     files: ./coverage.xml

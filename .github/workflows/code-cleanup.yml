@@ -1,0 +1,33 @@
+name: Code cleanup
+
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+
+permissions:
+    contents: write
+
+jobs:
+    cleanup:
+        name: Code cleanup
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.PERSONNAL_ACCESS_TOKEN }}
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  extensions: ctype, dom, iconv
+                  coverage: none
+            - name: Install dependencies
+              run: composer install --prefer-dist --no-progress
+            - name: Execute Rector
+              run: vendor/bin/rector process --ansi
+            - name: Execute PHP CS Fixer
+              run: ./vendor/bin/php-cs-fixer fix
+            - uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                commit_message: Apply Rector / PHP CS Fixer changes
