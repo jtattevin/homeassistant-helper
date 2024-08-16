@@ -1,80 +1,63 @@
 name: Tests
 
 on:
-    push:
-        branches: ["main"]
-    pull_request:
+  push:
+    branches: ["main"]
+  pull_request:
 
 permissions:
-    contents: write
+  contents: write
 
 jobs:
-    composer:
-        name: Composer validate
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - name: Validate composer.json and composer.lock
-              run: composer validate --strict
+  composer:
+    name: Composer validate
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
 
-    composerAudit:
-        name: Composer audit
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.2'
-                  extensions: ctype, dom, iconv
-                  coverage: none
-            - name: Install dependencies
-              run: composer install --prefer-dist --no-progress
-            - name: Run composer audit
-              uses: alamirault/composer-audit-action@v1
+  composerAudit:
+    name: Composer audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Run composer audit
+        uses: alamirault/composer-audit-action@v1
 
-    phpstan:
-        name: PHPStan
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.2'
-                  extensions: ctype, dom, iconv
-                  coverage: none
-            - name: Install dependencies
-              run: composer install --prefer-dist --no-progress
-            - uses: php-actions/phpstan@v3
-              with:
-                  level: 7
-                  path: bin config public src tests
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          install-dev-dependencies: true
+      - name: Execute PHPStan
+        run: vendor/bin/phpstan
 
-    phpunit:
-        name: PHPUnit
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                php-versions: ['8.2', '8.3']
-            fail-fast: false
-        steps:
-            -   uses: actions/checkout@v4
-            -   name: Setup PHP
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php-versions }}
-                    extensions: ctype, dom, iconv
-            -   name: Install dependencies
-                run: composer install --prefer-dist --no-progress
-            -   name: Execute PHPUnit
-                run: vendor/bin/phpunit --coverage-clover ./coverage.xml
-                env:
-                    XDEBUG_MODE: coverage
-            -   name: Upload to Codecov
-                if: ${{ matrix.php-versions == '8.2' }}
-                uses: codecov/codecov-action@v4
-                with:
-                    token: ${{ secrets.CODE_COV_TOKEN }}
-                    files: ./coverage.xml
-                    verbose: true
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['8.2', '8.3']
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          php-version: ${{ matrix.php-versions }}
+          install-dev-dependencies: true
+      - name: Execute PHPUnit
+        run: vendor/bin/phpunit --coverage-clover ./coverage.xml
+        env:
+            XDEBUG_MODE: coverage
+      - name: Upload to Codecov
+        if: ${{ matrix.php-versions == '8.2' }}
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODE_COV_TOKEN }}
+          files: ./coverage.xml
+          verbose: true
