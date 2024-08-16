@@ -2,7 +2,7 @@ name: Build docker image
 
 on:
     release:
-        type: [published]
+        types: [published]
 
 permissions:
     contents: read
