@@ -12,10 +12,15 @@ jobs:
   cleanup:
     name: Code cleanup
     runs-on: ubuntu-latest
+    env:
+      HAVE_PERSONNAL_ACCESS_TOKEN: ${{ secrets.PERSONNAL_ACCESS_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
+        if: ${{ env.HAVE_PERSONNAL_ACCESS_TOKEN == 'true' }}
         with:
             token: ${{ secrets.PERSONNAL_ACCESS_TOKEN }}
+      - uses: actions/checkout@v4
+        if: ${{ env.HAVE_PERSONNAL_ACCESS_TOKEN != 'true' }}
       - uses: ./.github/actions/setup
         with:
           install-dev-dependencies: true

@@ -13,3 +13,9 @@ updates:
       - dependency-name: phpunit/phpunit
         update-types:
           - version-update:semver-major
+    groups:
+      minor:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
