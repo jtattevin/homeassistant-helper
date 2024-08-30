@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/api/tv-schedule/at/{requestedTime}')]
+#[Route('/api/tv-schedule-at/{requestedTime}')]
 class TVScheduleAtController extends AbstractController
 {
     public function __construct(
