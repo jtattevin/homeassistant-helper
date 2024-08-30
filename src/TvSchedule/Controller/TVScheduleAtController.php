@@ -2,8 +2,8 @@
 
 namespace App\TvSchedule\Controller;
 
-use App\TvSchedule\Services\TimerFinder;
 use App\TvSchedule\Model\Schedule;
+use App\TvSchedule\Services\TimerFinder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,8 +24,7 @@ class TVScheduleAtController extends AbstractController
     ): Response {
         try {
             return $this->json($schedule->getShowScheduledAt($this->timeFinder->nextTime($requestedTime)));
-        }
-        catch(BadRequestException $exception) {
+        } catch (BadRequestException $exception) {
             throw new BadRequestHttpException($exception->getMessage(), $exception);
         }
     }

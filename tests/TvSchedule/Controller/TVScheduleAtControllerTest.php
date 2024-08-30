@@ -2,7 +2,6 @@
 
 namespace App\Tests\TvSchedule\Controller;
 
-use App\TvSchedule\Services\TimerFinder;
 use App\TvSchedule\Controller\TVScheduleAtController;
 use App\TvSchedule\Model\Schedule;
 use App\TvSchedule\Model\ShowSchedule;

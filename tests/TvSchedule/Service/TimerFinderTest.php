@@ -4,9 +4,9 @@ namespace App\Tests\TvSchedule\Service;
 
 use App\TvSchedule\Services\TimerFinder;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\Clock\Clock;
 use Symfony\Component\Clock\MockClock;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class TimerFinderTest extends TestCase
 {
@@ -18,7 +18,7 @@ class TimerFinderTest extends TestCase
         Clock::set(new MockClock($time));
 
         $timeFinder = new TimerFinder();
-        $resultTime = $timeFinder->nextTime($requestFormat)->format("c");
+        $resultTime = $timeFinder->nextTime($requestFormat)->format('c');
         $this->assertEquals($expectedDate, $resultTime);
     }
 
@@ -38,7 +38,7 @@ class TimerFinderTest extends TestCase
         $timeFinder = new TimerFinder();
 
         $this->expectException(BadRequestException::class);
-        $this->expectExceptionMessage("Bad request format, expected HH:mm got 2100.");
-        $timeFinder->nextTime("2100");
+        $this->expectExceptionMessage('Bad request format, expected HH:mm got 2100.');
+        $timeFinder->nextTime('2100');
     }
 }
