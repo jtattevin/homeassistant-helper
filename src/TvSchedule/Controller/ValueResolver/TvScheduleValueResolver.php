@@ -35,7 +35,7 @@ readonly class TvScheduleValueResolver implements ValueResolverInterface
         }
 
         yield $this->cache->get('tv_schedule', function (ItemInterface $item) {
-            $item->expiresAfter(3600 * 10);
+            $item->expiresAfter(3600 * 24 * 2);
 
             $xml = $this->tvScheduleClient->request('GET', '')->getContent();
 
