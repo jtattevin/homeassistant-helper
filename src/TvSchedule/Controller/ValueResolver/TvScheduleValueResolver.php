@@ -19,7 +19,7 @@ readonly class TvScheduleValueResolver implements ValueResolverInterface
     public function __construct(
         private SerializerInterface $serializer,
         private HttpClientInterface $tvScheduleClient,
-        private CacheInterface $cache
+        private CacheInterface $cache,
     ) {
     }
 

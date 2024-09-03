@@ -20,7 +20,7 @@ class TVScheduleAtController extends AbstractController
 
     public function __invoke(
         Schedule $schedule,
-        string $requestedTime
+        string $requestedTime,
     ): Response {
         try {
             return $this->json($schedule->getShowScheduledAt($this->timeFinder->nextTime($requestedTime)));

@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class TVScheduleController extends AbstractController
 {
     public function __invoke(
-        Schedule $schedule
+        Schedule $schedule,
     ): Response {
         return $this->json($schedule->getShowScheduledAt(Clock::get()->now()));
     }
