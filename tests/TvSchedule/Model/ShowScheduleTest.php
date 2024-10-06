@@ -48,4 +48,34 @@ class ShowScheduleTest extends TestCase
             json_encode($showSchedule)
         );
     }
+
+    /**
+     * @testWith ["episode","episode"]
+     *           ["0.11.","1.12."]
+     */
+    public function testJsonSerializeIncrementEpisode(string $episode, string $expectedEpisode): void
+    {
+        $category = new Category();
+        $category->title = 'category.title';
+
+        $showSchedule = new ShowSchedule();
+        $showSchedule->title = 'title';
+        $showSchedule->description = 'desc';
+        $showSchedule->categories = [
+            $category,
+        ];
+        $showSchedule->icon = 'icon';
+        $showSchedule->episode = $episode;
+        $showSchedule->rating = 'rating';
+        $showSchedule->channel = 'channel';
+        $showSchedule->start = new \DateTime('2024-01-01');
+        $showSchedule->stop = new \DateTime('2024-01-01');
+
+        $this->assertEquals(
+            <<<JSON
+            {"title":"title","desc":"desc","categories":["category.title"],"icon":"icon","episode":"$expectedEpisode","rating":"rating","channel":"channel","start":{"date":"2024-01-01 00:00:00.000000","timezone_type":3,"timezone":"UTC"},"stop":{"date":"2024-01-01 00:00:00.000000","timezone_type":3,"timezone":"UTC"}}
+            JSON,
+            json_encode($showSchedule)
+        );
+    }
 }
