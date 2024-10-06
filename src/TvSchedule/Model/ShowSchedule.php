@@ -51,7 +51,11 @@ class ShowSchedule implements \JsonSerializable
             'desc' => $this->description,
             'categories' => $this->categories,
             'icon' => $this->icon,
-            'episode' => $this->episode,
+            'episode' => preg_replace_callback(
+                "#(\d+)#",
+                static fn (array $number) => (string) (((int) $number[0]) + 1),
+                $this->episode,
+            ),
             'rating' => $this->rating,
             'channel' => $this->channel,
             'start' => $this->start,
