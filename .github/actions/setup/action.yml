@@ -15,7 +15,7 @@ runs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ inputs.php-versions }}
+        php-version: ${{ inputs.php-version }}
         extensions: ctype, dom, iconv
 
     - name: Cache vendor (with dev)
